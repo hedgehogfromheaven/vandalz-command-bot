@@ -1,17 +1,14 @@
 import asyncio
-from aiogram import Bot, Dispatcher, types
-
-# Hardcoded config (replace with your token)
-API_TOKEN = "8156758624:AAGQCAHhTkTWIaeKNA2RO9drnTiEbh-UdqQ"
-
-bot = Bot(token=API_TOKEN)
-dp = Dispatcher()
-
-@dp.message()
-async def echo_handler(message: types.Message) -> None:
-    await message.answer(f"👋 You said: {message.text}")
+from aiogram import Bot, Dispatcher
+from config import load_config
+from handlers import echo
 
 async def main():
+    config = load_config()
+    bot = Bot(token=config.bot_token)
+    dp = Dispatcher()
+    dp.include_router(echo.router)
+
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
