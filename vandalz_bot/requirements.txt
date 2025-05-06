@@ -1,2 +1,2 @@
-aiogram
-pydantic-settings
+aiogram==3.*
+pydantic-settings==2.*
