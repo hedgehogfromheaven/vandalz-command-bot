@@ -1,28 +1,22 @@
-from aiogram import Bot, Dispatcher
-from aiogram.enums import ParseMode
-from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import BotCommand
 import asyncio
+import os
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
 
-from config import settings
-from handlers import start, status, log_work
+# Получение токена из переменной окружения
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
+# Инициализация бота и диспетчера
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
+
+# Простейший обработчик
+@dp.message()
+async def echo(message: Message):
+    await message.answer(f"Ты сказал: {message.text}")
+
+# Запуск бота
 async def main():
-    bot = Bot(token=settings.BOT_TOKEN, parse_mode=ParseMode.MARKDOWN)
-    dp = Dispatcher(storage=MemoryStorage())
-
-    dp.include_routers(
-        start.router,
-        status.router,
-        log_work.router
-    )
-
-    await bot.set_my_commands([
-        BotCommand(command="start", description="Start the bot"),
-        BotCommand(command="status", description="Check car status"),
-        BotCommand(command="log_work", description="Log new work")
-    ])
-
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
