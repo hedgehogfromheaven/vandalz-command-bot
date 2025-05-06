@@ -10,18 +10,16 @@ config = load_config()
 BOT_TOKEN = config.vandalz_token
 
 if not BOT_TOKEN:
-    raise RuntimeError("VANDALZ_TOKEN is missing from environment")
+    raise RuntimeError("VANDALZ_TOKEN is missing from .env")
 
 # Initialize bot and dispatcher
 bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.MARKDOWN)
 dp = Dispatcher(storage=MemoryStorage())
 
-# Basic command handler
 @dp.message(commands=["start", "help"])
 async def send_welcome(message: Message):
-    await message.answer("🚀 VANDALZ BOT ready to serve. Send /status or /log to proceed.")
+    await message.answer("🚀 VANDALZ BOT ready to serve.")
 
-# Entry point
 if __name__ == "__main__":
     import asyncio
     async def main():
