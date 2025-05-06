@@ -5,6 +5,9 @@ from aiogram.enums import ParseMode
 # Import our config loader (from config.py)
 from config import load_config
 
+config = load_config()
+bot = Bot(token=config.bot_token)
+
 # Import routers for commands and other message handling
 from handlers.commands import router as command_router
 from handlers.echo import router as echo_router
