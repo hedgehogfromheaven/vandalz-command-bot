@@ -1,20 +1,17 @@
 import asyncio
-from aiogram import Bot, Dispatcher
-from aiogram.types import Message
+from aiogram import Bot, Dispatcher, types
 
-from config import load_config
+# Hardcoded config (replace with your token)
+API_TOKEN = "BOT_TOKEN=8156758624:AAFcIcItUe7jK_XjLoFbtrvuHxjy7fWeTBU"
 
-config = load_config()
-
-bot = Bot(token=config.token)
+bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
 @dp.message()
-async def handle_all_messages(message: Message):
-    await message.answer("Vandalz bot is alive and kicking! 🔥")
+async def echo_handler(message: types.Message) -> None:
+    await message.answer(f"👋 You said: {message.text}")
 
 async def main():
-    print("Starting Vandalz bot...")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
