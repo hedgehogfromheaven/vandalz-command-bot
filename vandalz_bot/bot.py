@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import Message
-from app.config import settings
+from config import settings
 from handlers import basic
 
 bot = Bot(token=settings.BOT_TOKEN)
