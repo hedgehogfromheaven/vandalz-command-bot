@@ -1,24 +1,15 @@
-from aiogram import Bot, Dispatcher, types
-from aiogram.enums import ParseMode
+from aiogram import Bot, Dispatcher
 from aiogram.types import Message
+from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
+from app.config import settings
 
-from vandalz_bot.config import load_config
-
-# Load token from .env
-config = load_config()
-BOT_TOKEN = config.vandalz_token
-
-if not BOT_TOKEN:
-    raise RuntimeError("VANDALZ_TOKEN is missing from .env")
-
-# Initialize bot and dispatcher
-bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.MARKDOWN)
+bot = Bot(token=settings.BOT_TOKEN, parse_mode=ParseMode.MARKDOWN)
 dp = Dispatcher(storage=MemoryStorage())
 
-@dp.message(commands=["start", "help"])
-async def send_welcome(message: Message):
-    await message.answer("🚀 VANDALZ BOT ready to serve.")
+@dp.message(commands=["start"])
+async def start_handler(message: Message):
+    await message.answer("🚗 *Vandalz Ops Bot Ready.*\nUse /addcar or /logaction to begin.")
 
 if __name__ == "__main__":
     import asyncio
