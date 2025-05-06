@@ -1,25 +1,17 @@
-# vandalz_bot/bot.py
-
-import asyncio
+# bot.py
 from aiogram import Bot, Dispatcher
-from vandalz_bot.config import load_config
-from vandalz_bot.handlers import setup_handlers
+from config import load_config
+from handlers import basic  # Импортируем твои хендлеры
 
+config = load_config()
+bot = Bot(token=config.bot_token)
+dp = Dispatcher()
+
+dp.include_router(basic.router)  # Регистрируем хендлеры
 
 async def main():
-    # Загружаем конфиг
-    config = load_config()
-
-    # Создаём бота и диспетчер
-    bot = Bot(token=config.bot_token)
-    dp = Dispatcher()
-
-    # Подключаем все хендлеры
-    setup_handlers(dp)
-
-    # Запускаем поллинг
     await dp.start_polling(bot)
 
-
 if __name__ == "__main__":
+    import asyncio
     asyncio.run(main())
