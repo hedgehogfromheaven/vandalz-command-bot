@@ -1,10 +1,11 @@
 from aiogram import Router, types
+from aiogram.filters import Command
 from db.postgres import PostgresDB
 
 router = Router()
 db = PostgresDB()
 
-@router.message(commands=["status"])
+@router.message(Command("status"))
 async def status_handler(msg: types.Message):
     name = msg.text.split(" ", 1)[-1] if " " in msg.text else None
     if not name:
