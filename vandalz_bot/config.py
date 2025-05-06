@@ -1,17 +1,13 @@
+from dataclasses import dataclass
 import os
-from dotenv import dotenv_values
 
-secrets = {
-    **dotenv_values("../vandalz.env"),
-    **os.environ
-}
+@dataclass
+class Settings:
+    BOT_TOKEN: str = os.getenv("BOT_TOKEN")
+    DB_HOST: str = os.getenv("DB_HOST")
+    DB_PORT: int = int(os.getenv("DB_PORT", 5432))
+    DB_NAME: str = os.getenv("DB_NAME")
+    DB_USER: str = os.getenv("DB_USER")
+    DB_PASS: str = os.getenv("DB_PASS")
 
-BOT_TOKEN = secrets["BOT_TOKEN"]
-
-DB_CONFIG = {
-    "host": secrets["DB_HOST"],
-    "port": int(secrets["DB_PORT"]),
-    "user": secrets["DB_USER"],
-    "password": secrets["DB_PASS"],
-    "database": secrets["DB_NAME"],
-}
+settings = Settings()

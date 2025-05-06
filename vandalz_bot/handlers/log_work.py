@@ -1,4 +1,5 @@
 from aiogram import Router, types
+from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from fsm.log_work import LogWorkFSM
 from db.postgres import PostgresDB
@@ -6,9 +7,9 @@ from db.postgres import PostgresDB
 router = Router()
 db = PostgresDB()
 
-@router.message(commands=["log_work"])
+@router.message(Command("log_work"))
 async def start_log(msg: types.Message, state: FSMContext):
-    await msg.answer("🧾 Enter car name:")
+    await msg.answer("📋 Enter car name:")
     await state.set_state(LogWorkFSM.car)
 
 @router.message(LogWorkFSM.car)
