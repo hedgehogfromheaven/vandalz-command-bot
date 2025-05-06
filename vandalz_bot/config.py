@@ -1,13 +1,10 @@
+# vandalz_bot/config.py
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pathlib import Path
 
 class Settings(BaseSettings):
-    bot_token: str
+    vandalz_token: str  # новое имя переменной
 
-    model_config = SettingsConfigDict(
-        env_file=str(Path(__file__).parent.parent / ".env"),
-        env_file_encoding="utf-8"
-    )
+    model_config = SettingsConfigDict(env_file='.env', extra='ignore')
 
 def load_config():
     return Settings()

@@ -1,24 +1,29 @@
-import os
-from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types
-import asyncio
+from aiogram.enums import ParseMode
+from aiogram.types import Message
+from aiogram.fsm.storage.memory import MemoryStorage
 
-# Загружаем .env
-load_dotenv("/app/.env")  # Укажи абсолютный путь, если билдит контейнер
+from vandalz_bot.config import load_config
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+# Load token from .env
+config = load_config()
+BOT_TOKEN = config.vandalz_token
+
 if not BOT_TOKEN:
-    raise RuntimeError("BOT_TOKEN is missing from .env")
+    raise RuntimeError("VANDALZ_TOKEN is missing from environment")
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher()
+# Initialize bot and dispatcher
+bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.MARKDOWN)
+dp = Dispatcher(storage=MemoryStorage())
 
-@dp.message()
-async def echo(message: types.Message):
-    await message.answer(f"Echo: {message.text}")
+# Basic command handler
+@dp.message(commands=["start", "help"])
+async def send_welcome(message: Message):
+    await message.answer("🚀 VANDALZ BOT ready to serve. Send /status or /log to proceed.")
 
-async def main():
-    await dp.start_polling(bot)
-
+# Entry point
 if __name__ == "__main__":
+    import asyncio
+    async def main():
+        await dp.start_polling(bot)
     asyncio.run(main())
