@@ -1,26 +1,24 @@
+# vandalz_bot/bot.py
 import asyncio
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
+from handlers.echo import router as echo_router
+import logging
 import os
-from aiogram import Bot, Dispatcher, types
 from dotenv import load_dotenv
 
-# Загрузка переменных из .env файла
+# Load .env
 load_dotenv()
+bot_token = os.getenv("BOT_TOKEN")
 
-# Получение токена из окружения
-API_TOKEN = os.getenv("BOT_TOKEN")
-if not API_TOKEN:
-    raise ValueError("BOT_TOKEN is not set in the environment variables")
+# Init logging
+logging.basicConfig(level=logging.INFO)
 
-# Инициализация бота и диспетчера
-bot = Bot(token=API_TOKEN)
+# Init bot and dispatcher
+bot = Bot(token=bot_token)
 dp = Dispatcher()
+dp.include_router(echo_router)
 
-# Хэндлер для всех входящих сообщений
-@dp.message()
-async def echo_handler(message: types.Message) -> None:
-    await message.answer(f"👋 You said: {message.text}")
-
-# Основной запуск бота
 async def main():
     await dp.start_polling(bot)
 
