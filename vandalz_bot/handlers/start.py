@@ -1,8 +1,8 @@
-from aiogram import Router, types
-from aiogram.filters import Command
+from aiogram import Router, F
+from aiogram.types import Message
 
 router = Router()
 
-@router.message(Command("start"))
-async def start_handler(msg: types.Message):
-    await msg.answer("🔧 *Vandalz Command Bot Ready*\nUse /status or /log_work to begin.", parse_mode="Markdown")
+@router.message(F.text == "/start")
+async def start_handler(message: Message):
+    await message.answer("👊 Добро пожаловать в Vandalz Bot. Мы готовы к старту.")
