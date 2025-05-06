@@ -1,18 +1,21 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent / "app"))
+
 from aiogram import Bot, Dispatcher
-from aiogram.types import Message
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-from app.config import settings
+from aiogram.types import Message
+from config import settings
+from handlers import basic
 
-bot = Bot(token=settings.BOT_TOKEN, parse_mode=ParseMode.MARKDOWN)
+bot = Bot(token=settings.BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
+dp.include_router(basic.router)
 
-@dp.message(commands=["start"])
-async def start_handler(message: Message):
-    await message.answer("🚗 *Vandalz Ops Bot Ready.*\nUse /addcar or /logaction to begin.")
+async def main():
+    await dp.start_polling(bot)
 
 if __name__ == "__main__":
     import asyncio
-    async def main():
-        await dp.start_polling(bot)
     asyncio.run(main())
