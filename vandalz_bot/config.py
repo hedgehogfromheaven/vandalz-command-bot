@@ -1,10 +1,8 @@
-from pydantic_settings import BaseSettings
+import os
 
-class Settings(BaseSettings):
-    bot_token: str
-
-    class Config:
-        env_file = ".env"
+class Settings:
+    def __init__(self):
+        self.token = os.getenv("BOT_TOKEN", "no-token-found")
 
 def load_config():
     return Settings()

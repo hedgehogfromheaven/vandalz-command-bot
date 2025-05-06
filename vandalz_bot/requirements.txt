@@ -1,2 +1,2 @@
 aiogram==3.*
-pydantic-settings==2.*
+pydantic-settings>=2.0.3
